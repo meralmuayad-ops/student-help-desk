@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Caveat:wght@600&family=Special+Elite&family=Patrick+Hand&display=swap" rel="stylesheet">
+<title>Student Help Desk</title>
+<style>
+:root{--desk:#e6d8bd;--dot:#b9c7bb;--paper:#fffdf8;--ink:#33302b;--muted:#7a746a;--yellow:#fff1a8;--pink:#ffd3dc;--blue:#cfe6f7;--mint:#d3efd9;--accent:#e0657f;--accent-ink:#fff;--edge:#33302b;--shadow:rgba(60,50,30,.22);--tape:rgba(247,190,90,.75);--tape2:rgba(240,130,150,.7);--found:#2f8a52;--lost:#c76a00;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--desk:#3a3429;--dot:#3b4146;--paper:#34393e;--ink:#f1ede4;--muted:#b3ada1;--yellow:#5c5026;--pink:#6a3a4a;--blue:#2f4a63;--mint:#2f5a4a;--accent:#ff8fa8;--accent-ink:#2a1219;--edge:#f1ede4;--shadow:rgba(0,0,0,.45);--found:#7be0a1;--lost:#ffb454}}
+:root[data-theme="dark"]{--desk:#3a3429;--dot:#3b4146;--paper:#34393e;--ink:#f1ede4;--muted:#b3ada1;--yellow:#5c5026;--pink:#6a3a4a;--blue:#2f4a63;--mint:#2f5a4a;--accent:#ff8fa8;--accent-ink:#2a1219;--edge:#f1ede4;--shadow:rgba(0,0,0,.45);--found:#7be0a1;--lost:#ffb454}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px);min-height:100%;background-color:var(--desk);background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .28  0 0 0 0 .18  0 0 0 .22 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");background-size:180px 180px}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:"Patrick Hand","Comic Sans MS","Segoe Print",cursive;font-size:1.08rem;line-height:1.4;background:transparent}
+.wrap{max-width:720px;margin:0 auto;padding:22px 16px}
+header{position:relative;background:var(--paper);padding:16px 18px 14px;margin:6px 6px 22px;transform:rotate(-1deg);box-shadow:3px 4px 0 var(--shadow);border:1.5px solid var(--edge);text-align:center}
+header::before,header::after{content:"";position:absolute;top:-12px;width:84px;height:24px;background:repeating-linear-gradient(45deg,var(--tape) 0 8px,rgba(255,255,255,.35) 8px 14px)}
+header::before{left:14px;transform:rotate(-6deg)}
+header::after{right:14px;transform:rotate(5deg);background:repeating-linear-gradient(135deg,var(--tape2) 0 8px,rgba(255,255,255,.35) 8px 14px)}
+header h1{margin:0;font-family:"Caveat","Segoe Script","Brush Script MT",cursive;font-size:2.5rem;line-height:1.1}
+header p{margin:2px 0 0;color:var(--muted)}
+.tabs{display:flex;gap:10px;margin:0 6px 16px}
+button{font:inherit;cursor:pointer;color:var(--ink)}
+.tabs button{flex:1;padding:9px 6px;border:1.5px solid var(--edge);border-radius:10px 10px 4px 4px;background:var(--blue);box-shadow:2px 3px 0 var(--shadow)}
+.tabs button.on{background:var(--yellow);transform:translateY(-3px);font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:0 6px 16px}
+.chips button{padding:6px 14px;border:1.5px dashed var(--edge);border-radius:8px;background:var(--pink);box-shadow:2px 3px 0 var(--shadow);transform:rotate(-1.5deg)}
+.chips button:nth-child(even){transform:rotate(1.5deg);background:var(--mint)}
+.chips button:nth-child(3n){background:var(--yellow)}
+.chips button:hover{transform:rotate(0) translateY(-2px)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+#chat{position:relative;margin:0 6px;background:var(--paper);border:1.5px solid var(--edge);box-shadow:4px 5px 0 var(--shadow);padding:14px 14px 14px 46px;height:52vh;min-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;background-image:linear-gradient(90deg,transparent 33px,#e88a9a 33px,#e88a9a 35px,transparent 35px)}
+.m{max-width:88%;padding:9px 13px;white-space:pre-line;box-shadow:2px 3px 0 var(--shadow);border:1.2px solid var(--edge)}
+.bot{background:var(--yellow);align-self:flex-start;border-radius:3px 12px 12px 12px;transform:rotate(-.4deg)}
+.me{background:var(--pink);align-self:flex-end;border-radius:12px 3px 12px 12px;transform:rotate(.4deg)}
+.row{display:flex;gap:8px;margin:12px 6px 0}
+input,select{flex:1;min-width:0;padding:9px 12px;border:1.5px dashed var(--edge);border-radius:6px;background:var(--paper);color:var(--ink);font:inherit}
+input::placeholder{color:var(--muted)}
+.go{padding:9px 18px;border:1.5px solid var(--edge);border-radius:8px;background:var(--accent);color:var(--accent-ink);font-weight:700;box-shadow:3px 3px 0 var(--edge)}
+.go:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--edge)}
+.item{position:relative;background:var(--paper);border:1.5px solid var(--edge);box-shadow:3px 4px 0 var(--shadow);padding:16px 14px 12px;margin:20px 6px 0;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.item::before{content:"";position:absolute;top:-10px;left:50%;width:70px;height:20px;margin-left:-35px;background:repeating-linear-gradient(45deg,var(--tape) 0 7px,rgba(255,255,255,.35) 7px 12px);transform:rotate(-3deg)}
+.item:nth-child(odd){transform:rotate(-.8deg)}
+.item:nth-child(even){transform:rotate(.8deg)}
+.item:nth-child(even)::before{background:repeating-linear-gradient(135deg,var(--tape2) 0 7px,rgba(255,255,255,.35) 7px 12px)}
+.item small{color:var(--muted);display:block}
+.tag{font-weight:700;color:var(--found);border:1.5px solid currentColor;padding:0 6px;border-radius:4px;font-size:.85rem}
+.tag.lost{color:var(--lost)}
+h2{font-family:"Caveat","Segoe Script",cursive;font-size:1.7rem;margin:22px 6px 0;display:inline-block;background:linear-gradient(transparent 55%,var(--yellow) 55%)}
+
+header h1{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 18px;font-size:1.9rem}
+.w{display:inline-flex;gap:3px;white-space:nowrap}
+.l{display:inline-block;padding:2px 7px 0;line-height:1.15;box-shadow:1px 2px 0 var(--shadow);border:1px solid rgba(0,0,0,.18);color:#33302b}
+.l.dk{color:#fffdf8;background:#33302b!important}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1 id="title" aria-label="Student Help Desk">Student Help Desk</h1><p>Radhwa International School, Yanbu - Grade 12</p></header>
+<div class="tabs"><button id="t1" class="on">Ask a question</button><button id="t2">Lost &amp; Found</button></div>
+
+<section id="p1">
+  <div class="chips" id="chips"></div>
+  <div id="chat" aria-live="polite"></div>
+  <div class="row"><input id="q" placeholder="Try: Sunday schedule, bus 12, break time" aria-label="Your question"><button class="go" id="send">Send</button></div>
+</section>
+
+<section id="p2" hidden>
+  <h2>Report an item</h2>
+  <div class="row"><select id="kind" aria-label="Lost or found"><option value="lost">I lost something</option><option value="found">I found something</option></select></div>
+  <div class="row"><input id="what" placeholder="Item (e.g. blue water bottle)"></div>
+  <div class="row"><input id="where" placeholder="Where (e.g. library)"></div>
+  <div class="row"><input id="who" placeholder="Your name / class"><button class="go" id="add">Post</button></div>
+  <h2>Items right now</h2>
+  <div id="items"></div>
+</section>
+</div>
+
+<script>
+/* ===== EDIT THIS DATA TO MATCH YOUR SCHOOL ===== */
+const DATA={
+  pt:["7:25-8:05","8:05-8:45","8:45-9:25","9:25-10:05","10:30-11:10","11:10-11:50","11:50-12:30","12:40-1:20"],
+  timings:"Grades 6-12 (2026-2027)\nAssembly 7:15-7:25\nPeriod 1: 7:25-8:05\nPeriod 2: 8:05-8:45\nPeriod 3: 8:45-9:25\nPeriod 4: 9:25-10:05\nBreak: 10:05-10:30 (25 min)\nPeriod 5: 10:30-11:10\nPeriod 6: 11:10-11:50\nPeriod 7: 11:50-12:30\nSalah break: 12:30-12:40 (10 min)\nPeriod 8: 12:40-1:20\nPack up: 1:20-1:25\nDismissal: 1:25 PM",
+  breakTxt:"Break: 10:05-10:30 (25 min)\nSalah break: 12:30-12:40 (10 min)\n\nThe salah break is mainly for praying. Students who aren't praying eat instead, and everyone stays indoors. Grades 4-12 pray in the library corridor or the salah room, and prayer mats are provided.",
+  endTxt:"Dismissal is at 1:25 PM (pack up starts at 1:20). Students must leave in single lines, and buses will not wait for late students.",
+  loc:{
+    hs:"Grade 12 classroom: High School Corridor, right side, at the far end from the main entrance (after Gr 6A and Gr 11).\nLeft side from the entrance: Gr 6B, Gr 10A, Gr 10B.",
+    lab:"Lab Corridor: left side has the Computer Lab (nearest the entrance) and the Art Room. Right side has the Chemistry Lab (nearest the entrance), Physics Lab and Biology Lab.",
+    lib:"The Library is in the Library Corridor. Librarian: Jannah Abdul-Mumit."
+  },
+  codes:{AAD:"Aaliyah Adamjee",AA:"Aseel Alyami",JA:"Jannah Abdul-Mumit",LU:"Latifat Usman",EJ:"Eman Ameen Jaan",GS:"Gisha Shyjith",NB:"Nivy Benedict",TM:"Tasabeeh Muhammad",RT:"Rihab Tahir",MSA:"Maram Saeed Aljohani",YAS:"Yasmin Ayman Shohaib",AAS:"Asmaa Alsinani",AN:"Anika Naveed",NH:"Nada Husayki"},
+  /* Grade 12 timetable. Each period: "Subject|Room|Teacher codes" */
+  schedule:{
+    Sunday:["Social Studies|Library|RT/MSA","Arabic|SR3|YAS/AAS","Islamic Studies|SR3|AN/NH","AP Bio / AP Physics|Physics Lab|NB/TM","English||AAD","Math||MS","PE / Health|A|LU","Elective||GS"],
+    Monday:["Arabic|SR3|YAS/AAS","English||AAD","English||AAD","Computer Studies||EJ","Math||MS","AP Bio / AP Physics|Physics Lab|NB/TM","AP Bio / AP Physics|Physics Lab|NB/TM","Elective||GS"],
+    Tuesday:["Quran|SAR|NH/AN","Art|SAR|AA","Art|SAR|AA","AP Bio / AP Physics|Physics Lab|NB/TM","Arabic|SR3|YAS/AAS","Math||MS","Math||MS","English||AAD"],
+    Wednesday:["Social Studies|Library|RT/MSA","English||AAD","English||AAD","C/CS||WA","Math||MS","PE / Health|A|LU","ETP/LS||","AP Bio / AP Physics|Physics Lab|NB/TM"],
+    Thursday:["Library / Literacy|Library|JA","Islamic Studies|SR3|AN/NH","Quran|SAR|NH/AN","Math||MS","English||AAD","AP Bio / AP Physics|Physics Lab|NB/TM","AP Bio / AP Physics|Physics Lab|NB/TM","Computer Studies||EJ"]
+  },
+  busMeet:"All buses wait at the parking lot in the backyard.",
+  /* each bus: [number, drop-off locations, driver name, driver phone] */
+  buses:[
+    [1,"Drop-off area 1 (edit)","Driver name 1","05X XXX 1001"],
+    [2,"Drop-off area 2 (edit)","Driver name 2","05X XXX 1002"],
+    [3,"Drop-off area 3 (edit)","Driver name 3","05X XXX 1003"],
+    [4,"Drop-off area 4 (edit)","Driver name 4","05X XXX 1004"],
+    [5,"Drop-off area 5 (edit)","Driver name 5","05X XXX 1005"],
+    [6,"Drop-off area 6 (edit)","Driver name 6","05X XXX 1006"],
+    [7,"Drop-off area 7 (edit)","Driver name 7","05X XXX 1007"],
+    [8,"Drop-off area 8 (edit)","Driver name 8","05X XXX 1008"],
+    [9,"Drop-off area 9 (edit)","Driver name 9","05X XXX 1009"],
+    [10,"Drop-off area 10 (edit)","Driver name 10","05X XXX 1010"],
+    [11,"Drop-off area 11 (edit)","Driver name 11","05X XXX 1011"],
+    [12,"Drop-off area 12 (edit)","Driver name 12","05X XXX 1012"],
+    [13,"Drop-off area 13 (edit)","Driver name 13","05X XXX 1013"],
+    [14,"Drop-off area 14 (edit)","Driver name 14","05X XXX 1014"],
+    [15,"Drop-off area 15 (edit)","Driver name 15","05X XXX 1015"],
+    [16,"Drop-off area 16 (edit)","Driver name 16","05X XXX 1016"],
+    [17,"Drop-off area 17 (edit)","Driver name 17","05X XXX 1017"],
+    [18,"Drop-off area 18 (edit)","Driver name 18","05X XXX 1018"],
+    [19,"Drop-off area 19 (edit)","Driver name 19","05X XXX 1019"],
+    [20,"Drop-off area 20 (edit)","Driver name 20","05X XXX 1020"],
+    [21,"Drop-off area 21 (edit)","Driver name 21","05X XXX 1021"],
+    [22,"Drop-off area 22 (edit)","Driver name 22","05X XXX 1022"],
+    [23,"Drop-off area 23 (edit)","Driver name 23","05X XXX 1023"],
+    [24,"Drop-off area 24 (edit)","Driver name 24","05X XXX 1024"],
+    [25,"Drop-off area 25 (edit)","Driver name 25","05X XXX 1025"],
+    [26,"Drop-off area 26 (edit)","Driver name 26","05X XXX 1026"],
+    [27,"Drop-off area 27 (edit)","Driver name 27","05X XXX 1027"],
+    [28,"Drop-off area 28 (edit)","Driver name 28","05X XXX 1028"],
+    [29,"Drop-off area 29 (edit)","Driver name 29","05X XXX 1029"],
+    [30,"Drop-off area 30 (edit)","Driver name 30","05X XXX 1030"],
+    [31,"Drop-off area 31 (edit)","Driver name 31","05X XXX 1031"]
+  ],
+  /* Teachers: "Name|Subject|Class or room" */
+  teachers:[
+    "Nivy Benedict|Science (Grade 12 class teacher)|Gr 12","Ammouna Shouman|Math + Supervisor|Gr 12","Bayan Mamlouk|Islamic Studies (A) + Supervisor|Gr 12",
+    "Anika Naveed|Islamic Studies (N/A) & Elective|Gr 11","Nada Mohammed Husayki|Islamic Studies (A)|Gr 11","Aaliyah Adamjee|English|Gr 11","Latifat Usman|PE|Gr 11",
+    "Maryam Saif|Math|Gr 10B","Tasabeeh Muhammad|Science (Dr)|Gr 10B","Asmaa Alsinani|Arabic (A)|Gr 10B",
+    "Riham Abulkhair Al-Ghamdi|English|Gr 10A","Yasmin Ayman Shohaib|Arabic (N/A)|Gr 10A","Rawan Saadi Alrashidi|Islamic Studies (N/A)|Gr 10A","Maram Saeed Aljohani|Social Studies (A)|Gr 10A",
+    "Raniyah Khalid Kamal|English|Gr 6B","Mawaddh Elsayed|Arabic (A) + Supervisor|Gr 6B","Bismah Chishty|Math|Gr 6A","Rehab Fouad Elsayed Ragab|Science|Gr 6A",
+    "Eman Ameen Jaan|Computer Studies|Computer Lab","Loura Khalil|Computer Studies|Computer Lab","Aseel Alyami|Art & Design|Art Room",
+    "Gisha Shyjith|Science & Elective|Biology Lab","Aadila Hamid|Social Studies (N/A) + Supervisor|Biology Lab","Rihab Tahir|Social Studies (N/A)|Biology Lab",
+    "Jannah Abdul-Mumit|Library & Literacy|Library"
+  ],
+  office:"For anything else, ask your class teacher Ms Nivy Benedict, or a Grade 12 supervisor (Ms Ammouna Shouman or Ms Bayan Mamlouk)."
+};
+/* ================================================= */
+
+const chat=document.getElementById('chat'),q=document.getElementById('q');
+function say(t,who){const d=document.createElement('div');d.className='m '+who;d.textContent=t;chat.appendChild(d);chat.scrollTop=chat.scrollHeight}
+const fmtOne=b=>`Bus ${b[0]}\nDrop-off: ${b[1]}\nDriver: ${b[2]}\nPhone: ${b[3]}\nMeeting point: backyard parking lot`;
+const fmtBus=m=>{const n=m&&parseInt(m[1]);if(n){const b=DATA.buses.find(x=>x[0]===n);return b?fmtOne(b):"There is no Bus "+n+". Buses are numbered 1 to "+DATA.buses.length+"."}
+return DATA.busMeet+"\n\nType a bus number (for example \"bus 12\") to get its drop-off locations and driver's phone number, or type \"all buses\" for the full list."};
+const fmtAllBuses=()=>DATA.buses.map(b=>`Bus ${b[0]}: ${b[1]} - ${b[2]}, ${b[3]}`).join("\n");
+const DAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday"];
+const nm=c=>c.split('/').filter(Boolean).map(x=>DATA.codes[x]||x).join(' / ');
+const fmtDay=d=>d+":\n"+DATA.schedule[d].map((r,i)=>{const[a,b,t]=r.split('|');return `P${i+1} (${DATA.pt[i]}) ${a}${b?' - '+b:''}${t?' ['+nm(t)+']':''}`}).join("\n");
+const fmtT=t=>{const[a,b,c]=t.split('|');return `${a} - ${b} (${c})`};
+function lostSummary(){const l=getItems();return l.length?"Latest items:\n"+l.slice(0,4).map(i=>`${i.kind.toUpperCase()}: ${i.what} (${i.where})`).join("\n")+"\n\nOpen the Lost & Found tab to see all or post one.":"Nothing reported yet. Open the Lost & Found tab to post an item."}
+function pickDay(s){
+  const dd=new Date().getDay(),m=s.match(/\b(sun|mon|tue|wed|thu)/);let i;
+  if(m)i=["sun","mon","tue","wed","thu"].indexOf(m[1]);
+  else if(/today/.test(s))i=dd;
+  else if(/tomorrow/.test(s))i=(dd+1)%7;
+  else return null;
+  return i<=4?DAYS[i]:"off";
+}
+function teacherAnswer(s){
+  const words=s.match(/[a-z]{4,}/g)||[];
+  const byName=DATA.teachers.filter(t=>t.split('|')[0].toLowerCase().split(' ').some(p=>p.length>3&&words.includes(p)));
+  if(byName.length)return byName.map(fmtT).join("\n");
+  if(!/teacher|staff|faculty|who teaches|supervisor|instructor/.test(s))return null;
+  const g=s.match(/(?:grade|gr)\s*(\d{1,2})\s*([ab])?\b/);let list;
+  if(g){const k="Gr "+g[1]+(g[2]?g[2].toUpperCase():"");list=DATA.teachers.filter(t=>t.split('|')[2].startsWith(k))}
+  else{const w=words.find(x=>DATA.teachers.some(t=>t.split('|')[1].toLowerCase().includes(x)));
+    list=w?DATA.teachers.filter(t=>t.split('|')[1].toLowerCase().includes(w)):DATA.teachers.filter(t=>t.split('|')[2]==="Gr 12")}
+  return list.length?list.map(fmtT).join("\n"):null;
+}
+function answer(text){
+  const s=text.toLowerCase();
+  if(/lost|found|missing|misplaced/.test(s))return lostSummary();
+  const bm=s.match(/bus(?:es)?\s*(?:no\.?|number|#)?\s*(\d{1,2})/)||s.match(/(\d{1,2})\s*bus/);
+  if(/all buses|bus list|every bus/.test(s))return fmtAllBuses();
+  if(bm||/bus|transport|driver|route|pick ?up|drop ?off/.test(s))return fmtBus(bm);
+  const t=teacherAnswer(s);if(t)return t;
+  const d=pickDay(s);
+  if(d==="off")return "There are no classes on Friday or Saturday. Ask for a school day, like \"Sunday\".";
+  if(d)return fmtDay(d);
+  if(/\blab|library|art room|classroom|corridor|floor|where is|room/.test(s)){
+    const o=[];if(/library/.test(s))o.push(DATA.loc.lib);if(/\blab|art room/.test(s))o.push(DATA.loc.lab);
+    if(!o.length||/class|grade|gr \d|corridor|floor/.test(s))o.push(DATA.loc.hs);return o.join("\n\n")}
+  if(/schedule|timetable|period|subject|lesson|class/.test(s))return DAYS.map(x=>x+": "+DATA.schedule[x].map(r=>r.split('|')[0]).join(", ")).join("\n\n")+"\n\nAsk for a day, like \"Sunday\" or \"today\", to see times, rooms and teachers.";
+  if(/break|salah|pray|lunch|eat|snack/.test(s))return DATA.breakTxt;
+  if(/dismiss|\bend\b|finish|go home|leave|over/.test(s))return DATA.endTxt;
+  if(/assembly|start|begin/.test(s))return "Assembly is at 7:15 AM and Period 1 starts at 7:25 AM.";
+  if(/time|timing|hour|bell|when/.test(s))return DATA.timings;
+  if(/office|help|contact/.test(s))return DATA.office;
+  return "I don't have an answer for that yet. Try the buttons above.\n"+DATA.office;
+}
+function ask(t){if(!t.trim())return;say(t,'me');setTimeout(()=>say(answer(t),'bot'),250)}
+
+[["Schedule","Today's schedule"],["School timings","School timings"],["Bus details","Bus details"],["Teachers","Teacher information"],["Lost & Found","Lost and found"]].forEach(([l,v])=>{
+  const b=document.createElement('button');b.textContent=l;b.onclick=()=>ask(v);document.getElementById('chips').appendChild(b)});
+document.getElementById('send').onclick=()=>{ask(q.value);q.value=''};
+q.addEventListener('keydown',e=>{if(e.key==='Enter'){ask(q.value);q.value=''}});
+say("Hi! I'm the Student Help Desk. Tap a topic or type your question. Try \"today\", \"Monday schedule\", a teacher's name, or \"bus 12\".",'bot');
+
+/* Lost & Found (kept in memory; saved in this browser when allowed) */
+let items=[{kind:"found",what:"Black calculator",where:"Room 101",who:"Front office"},{kind:"lost",what:"Blue water bottle",where:"Cafeteria",who:"Grade 8"}];
+try{const s=localStorage.getItem('lf');if(s)items=JSON.parse(s)}catch(e){}
+function getItems(){return items}
+function save(){try{localStorage.setItem('lf',JSON.stringify(items))}catch(e){}}
+function render(){const box=document.getElementById('items');box.innerHTML='';
+  if(!items.length){box.textContent='No items yet. Post one above.';return}
+  items.forEach((it,i)=>{const d=document.createElement('div');d.className='item';
+    const info=document.createElement('div');
+    const tag=document.createElement('span');tag.className='tag '+it.kind;tag.textContent=it.kind==='found'?'FOUND':'LOST';
+    const small=document.createElement('small');small.textContent=`${it.where} - ${it.who||'anonymous'}`;
+    const name=document.createElement('div');name.append(tag,' ',it.what);info.append(name,small);
+    const b=document.createElement('button');b.className='go';b.textContent='Resolved';b.onclick=()=>{items.splice(i,1);save();render()};
+    d.append(info,b);box.appendChild(d)})}
+document.getElementById('add').onclick=()=>{
+  const what=document.getElementById('what'),where=document.getElementById('where'),who=document.getElementById('who');
+  if(!what.value.trim()||!where.value.trim()){alert('Please enter the item and where it was.');return}
+  items.unshift({kind:document.getElementById('kind').value,what:what.value.trim(),where:where.value.trim(),who:who.value.trim()});
+  what.value=where.value=who.value='';save();render()};
+render();
+
+/* tabs */
+function tab(n){document.getElementById('p1').hidden=n!==1;document.getElementById('p2').hidden=n!==2;
+  document.getElementById('t1').classList.toggle('on',n===1);document.getElementById('t2').classList.toggle('on',n===2)}
+document.getElementById('t1').onclick=()=>tab(1);document.getElementById('t2').onclick=()=>tab(2);
+
+/* scrapbook cut-out title */
+(function(){const h=document.getElementById('title');const txt=h.textContent;h.textContent='';
+const bg=['var(--yellow)','var(--pink)','var(--blue)','var(--mint)','#fffdf8'],
+fonts=['"Special Elite","Courier New",monospace','"Abril Fatface",Georgia,serif','"Caveat","Segoe Script",cursive','Georgia,serif'],
+rot=[-5,3,-2,5,-4,2,4,-3];let i=0;
+txt.split(' ').forEach(word=>{const w=document.createElement('span');w.className='w';w.setAttribute('aria-hidden','true');
+[...word].forEach(c=>{const l=document.createElement('span');l.className='l'+(i%7===3?' dk':'');l.textContent=c;
+l.style.background=bg[(i*2+Math.floor(i/3))%bg.length];l.style.fontFamily=fonts[(i*3)%fonts.length];
+l.style.transform='rotate('+rot[i%rot.length]+'deg) translateY('+((i%3)-1)*2+'px)';
+l.style.fontSize=(1.55+((i*5)%4)*.18)+'rem';i++;w.appendChild(l)});h.appendChild(w)})})();
+</script>
+</body>
+</html>
